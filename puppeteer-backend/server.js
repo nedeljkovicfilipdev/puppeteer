@@ -1,14 +1,36 @@
-const puppeteer = require('puppeteer');
+//Scrapers
+const categories = require('./scrapers/categories')
+const getRecentProducts = require('./scrapers/products')
 
-async function run() {
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
+//Converting nodejs to express
+const express = require('express')
 
-    await page.goto('https://www.traversymedia.com')
+const app = express()
 
-    await page.screenshot({path: 'example.png'})
+app.use(express.json())
+app.use(express.urlencoded({extended: false}))
 
-    await browser.close();
+async function main() {
+    try {
+        const products = await getRecentProducts.getProducts();
+        console.log(products);
+    } catch (error) {
+        console.error("Error:", error);
+    }
 }
 
-run()
+main();
+
+//Routes to be added..
+
+//Show all categories
+/*
+categories.getCategories().then(categories => {
+    categories.forEach(category => {
+        console.log(`Title: ${category.title}`)
+        console.log(`ImageUrl: ${category.imageUrl}`)
+        console.log(`Link: ${category.link}`)
+        console.log("______________________________")
+    })
+})
+*/
