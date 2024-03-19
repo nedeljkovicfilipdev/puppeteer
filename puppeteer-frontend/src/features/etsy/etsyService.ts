@@ -6,7 +6,7 @@ const API_URL = '/etsy/'
 const products = async () => {
   try {
     const response = await axios.get('http://localhost:4000/etsy/getProducts');
-    console.log("AOIAHJKOAHSKJASHKJHASDKJHDAS");
+    console.log("");
     console.log(response);
     
     if (response.data) {

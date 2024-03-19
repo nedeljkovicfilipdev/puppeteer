@@ -15,16 +15,39 @@ const getRandomUserAgent = () => {
     return userAgents[randomIndex]
 }
 
+async function checkForCaptcha(page) {
+    try {
+        await page.waitForSelector('iframe[src*="captcha-delivery.com"]',{timeout: 2000});
+        const frameHandle = await page.$('iframe[src*="captcha-delivery.com"]');
+        const frame = await frameHandle.contentFrame();
+
+        // Check if captcha elements are present inside the frame
+        const captchaTitle = await frame.$('.captcha__human__title');
+        if (captchaTitle) {
+            return true; // Captcha detected
+        } else {
+            return false; // Captcha not detected
+        }
+    } catch (error) {
+        return false; // Error occurred or captcha not detected
+    }
+}
+
+
 async function getProducts(){
     puppeteer.use(stealthPlugin())
-    const browser = await puppeteer.launch({headless: true});
-    
+    const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
     await page.goto('https://www.etsy.com/market/top_sellers');
-    await page.setUserAgent(getRandomUserAgent());
+    //await page.setUserAgent(getRandomUserAgent());
 
     //Page test
     await page.screenshot({path: 'example.png', fullPage: true})
+    const captchaDetected = await checkForCaptcha(page)
+    if(captchaDetected){
+        console.log('Please solve the captcha manually...');
+        await page.waitForNavigation()
+    }
 
     const products = await page.evaluate(() => {
         const productList = []

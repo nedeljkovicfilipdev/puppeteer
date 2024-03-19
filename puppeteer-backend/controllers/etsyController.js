@@ -6,11 +6,6 @@ const { getProducts } = require('../scrapers/products')
 // Get products
 // GET /etsy/getProducts
 const getAllProducts = async (req, res) => {
-/*
-    const products = getProducts()
-
-    res.status(200).json(products)
-*/
     try{
         const products = await getProducts()
         res.status(200).json(products)
