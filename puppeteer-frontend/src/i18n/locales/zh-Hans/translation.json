@@ -1,0 +1,12 @@
+{
+  "title": "Nightlife Organizer",
+  "features": "特点",
+  "modernstack": "现代高效的技术栈",
+  "modernstack-desc": "使用 vite、react、tailwindcss、shadcnui 等构建",
+  "filter-support": "开箱即用的国际化支持",
+  "filter-support-desc": "本地化地提供多种语言的产品",
+  "admin-support": "保存时检查所有代码",
+  "admin-support-desc": "使用 eslint、prettier、stylelint、commitlint 构建",
+  "booking-title": "使用我们喜爱的最佳开发体验构建应用",
+  "get-started": "开始"
+}

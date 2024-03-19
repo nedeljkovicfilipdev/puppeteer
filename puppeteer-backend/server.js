@@ -1,36 +1,29 @@
+require('dotenv').config()
+
 //Scrapers
-const categories = require('./scrapers/categories')
-const getRecentProducts = require('./scrapers/products')
+const { requestHandler } = require('./middleware/requestMiddleware')
+const cors = require('cors')
+
+const productRoutes = require('./routes/productRoutes')
 
 //Converting nodejs to express
 const express = require('express')
+
+const corsOptions = {
+    origin: 'http://localhost:5000',
+    credentials: true,
+}
 
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+app.use(cors(corsOptions))
 
-async function main() {
-    try {
-        const products = await getRecentProducts.getProducts();
-        console.log(products);
-    } catch (error) {
-        console.error("Error:", error);
-    }
-}
+app.listen(process.env.PORT)
 
-main();
+//Middleware
+app.use(requestHandler)
 
 //Routes to be added..
-
-//Show all categories
-/*
-categories.getCategories().then(categories => {
-    categories.forEach(category => {
-        console.log(`Title: ${category.title}`)
-        console.log(`ImageUrl: ${category.imageUrl}`)
-        console.log(`Link: ${category.link}`)
-        console.log("______________________________")
-    })
-})
-*/
+app.use("/etsy", productRoutes)

@@ -1,0 +1,12 @@
+{
+  "title": "Nightlife Organizer",
+  "features": "Caratteristiche",
+  "modernstack": "Stack moderno ed efficiente",
+  "modernstack-desc": "Realizzato con vite, react, tailwindcss, shadcnui e altro",
+  "filter-support": "Supporto i18n integrato",
+  "filter-support-desc": "Distribuisci il tuo prodotto con diverse lingue in modo nativo",
+  "admin-support": "Verifica tutti i codici al salvataggio",
+  "admin-support-desc": "Realizzato con eslint, prettier, stylelint, commitlint",
+  "booking-title": "Costruisci app con la migliore DX che amiamo",
+  "get-started": "Inizia"
+}
