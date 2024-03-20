@@ -54,7 +54,7 @@ async function getProducts(){
         const items = Array.from(document.querySelectorAll('.listing-link'))
 
         // Web scraping desired fields to be used
-        items.forEach(item => { 
+        items.forEach(item => {
             const name = item.querySelector('.v2-listing-card__title').textContent.trim()
             const link = item.getAttribute('href')
             const image = item.querySelector('div > img').getAttribute('src')
@@ -70,6 +70,29 @@ async function getProducts(){
         return productList
     })
 
+    
+    for(let productLink of products){
+        await page.goto(productLink.link)
+        const captchaDetected = await checkForCaptcha(page)
+        if(captchaDetected){
+            console.log('Please solve the captcha manually...');
+            await page.waitForNavigation()
+        }
+        const variations = await page.evaluate(() => {
+            const variationElements = document.querySelectorAll('[data-selector="listing-page-variation"]');
+            const variationsData = [];
+            
+            variationElements.forEach((element) => {
+              const label = element.querySelector('span[data-label]').textContent.trim();
+              const options = Array.from(element.querySelectorAll('select option')).map(option => option.textContent.trim());
+              variationsData.push({ label, options });
+            });
+            console.log(variationsData)
+            return variationsData;
+          });
+          productLink.variations = variations
+    }
+
     await browser.close();
     
     // Return all products as array
@@ -77,7 +100,7 @@ async function getProducts(){
     return products
 }
 
-async function getProduct(url) {
+async function getProduct(products) {
     try{
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
