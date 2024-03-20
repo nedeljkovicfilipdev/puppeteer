@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler')
 
-const { getProducts } = require('../scrapers/products')
+const { getProducts, getProduct} = require('../scrapers/products')
 
 
 // Get products
@@ -14,12 +14,17 @@ const getAllProducts = async (req, res) => {
         res.status(500).json({error: "Internal Server Error"})
     }
 }
-//GET single product
-const getProduct = async(req, res) => {
 
+//Get single product
+//GET /etsy/getProduct?link
+const getDetailedProduct = async (req, res) => {
+    console.log(req)
+    const url = req.body
+    console.log(url)
+    //To be changed
 }
 
 module.exports = {
     getAllProducts,
-    getProduct,
+    getDetailedProduct,
 }

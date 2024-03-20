@@ -20,6 +20,9 @@ const products = async () => {
   }
 };
 
+const updateProducts = async () => {
+  //To be updated..
+}
 
 const etsyService = {
     products,

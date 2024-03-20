@@ -77,6 +77,35 @@ async function getProducts(){
     return products
 }
 
+async function getProduct(url) {
+    try{
+        const browser = await puppeteer.launch()
+        const page = await browser.newPage()
+        await page.goto(url)
+
+        await page.waitForSelector('[data-selector="listing-page-variations"]');
+
+        const variations = await page.evaluate(() => {
+            const variationElements = document.querySelectorAll('[data-selector="listing-page-variation"]');
+            const variationsData = [];
+            
+            variationElements.forEach((element) => {
+              const label = element.querySelector('span[data-label]').textContent.trim();
+              const options = Array.from(element.querySelectorAll('select option')).map(option => option.textContent.trim());
+              variationsData.push({ label, options });
+            });
+      
+            return variationsData;
+          });
+        await browser.close();
+        return variations
+    }catch(error){
+        console.error("Error scraping variations: ",error)
+        return []
+    }
+}
+
 module.exports = {
     getProducts,
+    getProduct,
 }

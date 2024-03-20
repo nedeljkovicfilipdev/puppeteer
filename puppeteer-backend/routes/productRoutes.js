@@ -1,14 +1,14 @@
 const express = require("express")
 const {
     getAllProducts,
-    getProduct,
+    getDetailedProduct,
 } = require('../controllers/etsyController')
  
 const router = express.Router()
 
 router.get("/getProducts", getAllProducts)
 
-router.get("/product", getProduct)
+router.post("/product", getDetailedProduct)
 
 //router.route('/:id').patch().delete()
 
