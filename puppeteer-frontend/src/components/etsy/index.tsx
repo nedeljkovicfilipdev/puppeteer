@@ -47,12 +47,17 @@ export const Etsy = () => {
 
   //Get products from redux store
   useEffect(() => {
-    dispatch(getProducts())
-  },[])
+    if(!products){
+      dispatch(getProducts())
+    }
+
+  },[products])
 
   //Loading first products on render
   useEffect(() => {
-    setDisplayedProducts(products.slice(0, 10))
+    if(products){
+      setDisplayedProducts(products.slice(0, 10))
+    }
   }, [products])
 
   //When end of page, load more products
@@ -80,7 +85,7 @@ export const Etsy = () => {
                 </div>
             </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                   {displayedProducts.map((product:any, index:any) => (
                     <div key={index} className="max-w-sm rounded overflow-hidden shadow-lg bg-white bg-opacity-80">
                       <img className="w-full" src={product.image} alt={product.name} />
@@ -95,7 +100,6 @@ export const Etsy = () => {
                   ))}
                 </div>
               )}
-              
             </div>
           </div>
         </div>
