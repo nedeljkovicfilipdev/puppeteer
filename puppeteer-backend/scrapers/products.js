@@ -48,13 +48,14 @@ async function getProducts(){
         console.log('Please solve the captcha manually...');
         await page.waitForNavigation()
     }
-
+    
     const products = await page.evaluate(() => {
         const productList = []
         const items = Array.from(document.querySelectorAll('.listing-link'))
-
+        let counter1 = 0
         // Web scraping desired fields to be used
-        items.forEach(item => {
+        for(const item of items) {
+            counter1++
             const name = item.querySelector('.v2-listing-card__title').textContent.trim()
             const link = item.getAttribute('href')
             const image = item.querySelector('div > img').getAttribute('src')
@@ -66,11 +67,16 @@ async function getProducts(){
             if(name && link && image && price) {
                 console.log(name, link, image, price)
             }
-        })
+            if(counter1 > 10){
+                break
+            }
+        }
         return productList
     })
 
+    //Counter for how many detailed information on products
     let counter = 0
+    //Scraping detailed info of products
     for(let productLink of products){
         counter++
         await page.goto(productLink.link)
@@ -79,17 +85,19 @@ async function getProducts(){
             console.log('Please solve the captcha manually...');
             await page.waitForNavigation()
         }
+
+        //Check if collapsed
         const isCollapsed = await page.evaluate(() => {
             const button = document.querySelector('.wt-content-toggle__body--truncated');
             return button.getAttribute('aria-hidden') === 'true';
-          });
+        });
         
-          // If collapsed, click the button to expand
-          if (isCollapsed) {
+        // If collapsed, click the button to expand
+        if (isCollapsed) {
             await page.click('[data-wt-content-toggle="true"][data-read-more="true"]');
             // Wait for the description to become visible
             await page.waitForSelector('[data-product-details-description-text-content]');
-          }
+        }
 
         //Get description of product
         const description = await page.evaluate(() =>{
@@ -113,7 +121,7 @@ async function getProducts(){
           productLink.variations = variations
 
           //Break loop after 10 detailed info of products
-          if(counter === 1){ break } 
+          if(counter === 10){ break } 
     }
 
     await browser.close();

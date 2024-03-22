@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer');
 
+
+//Trying out puppeteer, recieving categories from etsy page
 async function getCategories() {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();

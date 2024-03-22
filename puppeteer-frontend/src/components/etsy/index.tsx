@@ -16,7 +16,6 @@ export const Etsy = () => {
   const { products, isLoading, isError, isSuccess, message } = useSelector(
     (state:RootState) => state.etsy
   )
-  console.log("IS ERROR:",isError)
   const [displayedProducts, setDisplayedProducts] = useState<Array<any>>([])
 
   //Loading more products

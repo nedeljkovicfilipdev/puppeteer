@@ -17,12 +17,14 @@ const getAllProducts = async (req, res) => {
 
 //Get single product
 //GET /etsy/getProduct?link
+
 const getDetailedProduct = async (req, res) => {
     console.log(req)
     const url = req.body
     console.log(url)
     //To be changed
 }
+
 
 module.exports = {
     getAllProducts,

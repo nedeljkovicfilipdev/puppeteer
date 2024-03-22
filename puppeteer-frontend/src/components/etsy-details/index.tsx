@@ -16,8 +16,9 @@ export const DetailedInfo = () => {
     const [hasDescription, setHasDescription] = useState(false)
 
     useEffect(() => {
+        console.log(product.variations)
         //Show variations if product has them
-        if(product.variation){
+        if(product.variations){
             setHasVariations(true)
         }
         //Show description if product has them
