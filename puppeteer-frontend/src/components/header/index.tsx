@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { Github, LogIn, BookOpen, LogOut } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-
 interface IProps {
   leftNode?: ReactNode
 }

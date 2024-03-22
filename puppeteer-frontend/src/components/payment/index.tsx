@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 
+//Payment simulation with navigating to the home page 
 export const Payment = () => {
 
     let { state } = useLocation()
@@ -9,7 +10,6 @@ export const Payment = () => {
     let currency = state[2]
 
     const message = 'Payment has been successful'
-
 
     useEffect(() => {
         console.log(state)

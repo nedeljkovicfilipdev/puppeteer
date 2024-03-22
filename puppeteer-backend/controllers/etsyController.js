@@ -10,7 +10,7 @@ const getAllProducts = async (req, res) => {
         const products = await getProducts()
         res.status(200).json(products)
     } catch (error) {
-        console.error("Error getting producs: ", error)
+        console.error("Error getting products: ", error)
         res.status(500).json({error: "Internal Server Error"})
     }
 }

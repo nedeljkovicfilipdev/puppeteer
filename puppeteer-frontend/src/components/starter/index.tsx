@@ -5,9 +5,9 @@ import { Link, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 
+//Homepage with payment successful toaster if message is recieved
 export const Starter = () => {
   const { t } = useTranslation()
-
   let { state } = useLocation();
 
   let message = state

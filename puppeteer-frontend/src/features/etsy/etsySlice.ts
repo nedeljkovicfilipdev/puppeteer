@@ -25,7 +25,7 @@ export const getProducts = createAsyncThunk('etsy/products', async () => {
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString()
-    return message
+    throw new error(message)
   }
 })
 
@@ -56,6 +56,8 @@ export const etsySlice = createSlice({
     builder
       .addCase(getProducts.pending, (state) => {
         state.isLoading = true
+        state.isError = false
+        state.isSuccess = false
       })
       .addCase(getProducts.fulfilled, (state, action) => {
         state.isLoading = false
@@ -66,7 +68,7 @@ export const etsySlice = createSlice({
       .addCase(getProducts.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
-        state.message = action.payload as string
+        state.message = "Products can't be retrieved"
         state.products = null
         state.cart = null
       })

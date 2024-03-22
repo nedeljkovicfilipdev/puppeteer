@@ -16,7 +16,7 @@ export const Etsy = () => {
   const { products, isLoading, isError, isSuccess, message } = useSelector(
     (state:RootState) => state.etsy
   )
-
+  console.log("IS ERROR:",isError)
   const [displayedProducts, setDisplayedProducts] = useState<Array<any>>([])
 
   //Loading more products
@@ -36,21 +36,20 @@ export const Etsy = () => {
 
   //Toaster for errors and successes
   useEffect(() => {
-    if (isError && message) {
+    if (isError) {
       toast.error(message);
     }
-    if (isSuccess && message) {
+    if (isSuccess) {
       toast.success(message)
     }
-    dispatch(reset());
-  }, [isError, isSuccess, message]);
+  }, [ isError, isSuccess]);
 
   //Get products from redux store
   useEffect(() => {
+    dispatch(reset())
     if(!products){
       dispatch(getProducts())
     }
-
   },[products])
 
   //Loading first products on render
@@ -84,6 +83,10 @@ export const Etsy = () => {
                     <span className="sr-only">Loading...</span>
                 </div>
             </div>
+              ) : isError ? (
+                <div>
+                  <p>Error loading products. Please try again later.</p>
+                </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                   {Array.isArray(displayedProducts) && displayedProducts.map((product:any, index:any) => (

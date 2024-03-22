@@ -6,11 +6,12 @@ const API_URL = '/etsy/'
 const products = async () => {
   try {
     let products = JSON.parse(localStorage.getItem('products') || '[]')
-    
+    //If no products in storage, scrape them from URL
     if (products.length === 0) {
       const response = await axios.get('http://localhost:4000/etsy/getProducts');
       console.log(response);
 
+      //If there is data add them to products item
       if (response.data) {
         products = response.data;
         localStorage.setItem('products', JSON.stringify(products));
@@ -20,7 +21,7 @@ const products = async () => {
     return products;
   } catch (error) {
     console.error('Error fetching products:', error);
-    throw error; // Re-throw the error to be caught by the caller
+    throw 'Error fetching products. Please try again later'
   }
 };
 

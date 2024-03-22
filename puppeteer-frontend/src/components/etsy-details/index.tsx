@@ -5,11 +5,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAppDispatch } from "src/app/hooks"
 import { addToCart } from "src/features/etsy/etsySlice"
 
-interface Variation{
-    label: string,
-    options: string[]
-}
-
 export const DetailedInfo = () => {
     //const {t} = useTranslation()
     const dispatch = useAppDispatch()
@@ -21,14 +16,17 @@ export const DetailedInfo = () => {
     const [hasDescription, setHasDescription] = useState(false)
 
     useEffect(() => {
+        //Show variations if product has them
         if(product.variation){
             setHasVariations(true)
         }
+        //Show description if product has them
         if(product.description){
             setHasDescription(true)
         }
     },[])
 
+    //Simulate adding to cart, adding to cart item inside redux store
     const handleAddToCart = () => {
         dispatch(addToCart(product));
     }
@@ -52,7 +50,7 @@ export const DetailedInfo = () => {
                                 </div>
                             </div>
                             <div >
-                            {hasVariations && (
+                            { hasVariations && (
                                     product.variations.map((variation: any, index: any) => (
                                         <div key={index} className="mb-4 flex flex-col items-center">
                                             <div className="text-lg font-semibold mb-2">{variation.label}</div>
@@ -64,11 +62,9 @@ export const DetailedInfo = () => {
                                         </div>
                                     ))
                             )}
-                            {
-                                hasDescription && (
+                            { hasDescription && (
                                     <div className="px-8 py-8" dangerouslySetInnerHTML={{ __html: product.description }} />
-                                )
-                            }
+                            )}
                             </div>
                         </div>
                     </div>
