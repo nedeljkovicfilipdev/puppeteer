@@ -4,6 +4,9 @@ import ErrorPage from './components/error-page'
 import { getDefaultLayout } from './components/layout'
 import HomePage from './pages/home'
 import EtsyPage from './pages/etsy'
+import { DetailedInfo } from './components/etsy-details'
+import { Cart } from './components/cart'
+import { Payment } from './components/payment'
 
 export const routerObjects: RouteObject[] = [
   {
@@ -13,6 +16,18 @@ export const routerObjects: RouteObject[] = [
   {
     path: '/etsyScraper',
     Component: EtsyPage,
+  },
+  {
+    path: '/details',
+    Component: DetailedInfo
+  },
+  {
+    path: '/cart',
+    Component: Cart
+  },
+  {
+    path: '/payment',
+    Component: Payment
   }
 ]
 

@@ -1,13 +1,23 @@
 import { Rocket, Globe2, Wrench, Zap, BookIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '../ui/button'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
 
 export const Starter = () => {
   const { t } = useTranslation()
 
+  let { state } = useLocation();
+
+  let message = state
+
+  useEffect(() => {
+    toast(message)
+  })
+
   return (
-    <div className="flex min-h-screen bg-gradient-to-b from-emerald-300 to-emerald-700">
+    <div className="flex min-h-screen bg-gradient-to-b from-zinc-100 to-zinc-500">
       <section className="w-full py-32 md:py-48">
         <div className="container px-4 md:px-6">
           <div className="grid items-center gap-6">

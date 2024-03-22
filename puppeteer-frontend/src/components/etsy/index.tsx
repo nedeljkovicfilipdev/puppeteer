@@ -10,7 +10,7 @@ import { RootState } from 'src/app/store'
 import { toast } from 'react-toastify'
  
 export const Etsy = () => {
-  const { t } = useTranslation()
+  //const { t } = useTranslation()
   const dispatch = useAppDispatch()
 
   const { products, isLoading, isError, isSuccess, message } = useSelector(
@@ -18,7 +18,7 @@ export const Etsy = () => {
   )
 
   const [displayedProducts, setDisplayedProducts] = useState<Array<any>>([])
-  
+
   //Loading more products
   const loadMoreProducts = () => {
     setDisplayedProducts((prevProducts) => [
@@ -36,14 +36,14 @@ export const Etsy = () => {
 
   //Toaster for errors and successes
   useEffect(() => {
-    if (isError) {
+    if (isError && message) {
       toast.error(message);
     }
-    if (isSuccess) {
-      toast.success("Products retrieved successfully")
+    if (isSuccess && message) {
+      toast.success(message)
     }
     dispatch(reset());
-  }, [isError, isSuccess, message, dispatch]);
+  }, [isError, isSuccess, message]);
 
   //Get products from redux store
   useEffect(() => {
@@ -69,7 +69,7 @@ export const Etsy = () => {
    })
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-b from-emerald-300 to-emerald-700">
+    <div className="flex min-h-screen bg-zinc">
       <section className="w-full py-32 md:py-48">
         <div className="container px-4 md:px-6">
           <div className="grid items-center gap-6">
@@ -86,17 +86,17 @@ export const Etsy = () => {
             </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                  {displayedProducts.map((product:any, index:any) => (
-                    <div key={index} className="max-w-sm rounded overflow-hidden shadow-lg bg-white bg-opacity-80">
-                      <img className="w-full" src={product.image} alt={product.name} />
+                  {Array.isArray(displayedProducts) && displayedProducts.map((product:any, index:any) => (
+                    <Link to={'/details'} state={product} key={index} className="max-w-sm rounded overflow-hidden shadow-lg bg-white bg-opacity-80 relative">
+                      <img className="w-full -z-1" src={product.image} alt={product.name} />
                       <div className="px-6 py-4">
                         <div className="font-bold text-xl mb-2">{product.name}</div>
                         <p className="text-gray-700 text-base">{product.price}</p>
                       </div>
-                      <div className="px-6 pt-4 pb-2">
+                      <div className="absolute bottom-0 w-full text-center left-0 right-0">
                         <a href={product.link} className="inline-block bg-blue-500 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">View Product</a>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               )}

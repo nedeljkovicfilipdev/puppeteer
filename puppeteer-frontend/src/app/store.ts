@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "../features/auth/authSlice";
 import etsyReducer from "../features/etsy/etsySlice";
 
 

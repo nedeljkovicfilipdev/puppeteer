@@ -17,7 +17,7 @@ const getRandomUserAgent = () => {
 
 async function checkForCaptcha(page) {
     try {
-        await page.waitForSelector('iframe[src*="captcha-delivery.com"]',{timeout: 2000});
+        await page.waitForSelector('iframe[src*="captcha-delivery.com"]',{timeout: 500});
         const frameHandle = await page.$('iframe[src*="captcha-delivery.com"]');
         const frame = await frameHandle.contentFrame();
 
@@ -70,18 +70,38 @@ async function getProducts(){
         return productList
     })
 
-    
+    let counter = 0
     for(let productLink of products){
+        counter++
         await page.goto(productLink.link)
         const captchaDetected = await checkForCaptcha(page)
         if(captchaDetected){
             console.log('Please solve the captcha manually...');
             await page.waitForNavigation()
         }
+        const isCollapsed = await page.evaluate(() => {
+            const button = document.querySelector('.wt-content-toggle__body--truncated');
+            return button.getAttribute('aria-hidden') === 'true';
+          });
+        
+          // If collapsed, click the button to expand
+          if (isCollapsed) {
+            await page.click('[data-wt-content-toggle="true"][data-read-more="true"]');
+            // Wait for the description to become visible
+            await page.waitForSelector('[data-product-details-description-text-content]');
+          }
+
+        //Get description of product
+        const description = await page.evaluate(() =>{
+            const description = document.querySelector('div[data-id="description-text"]');
+            return description.innerHTML;
+        })
+        productLink.description = description
+
+        //Get sizes, materials etc
         const variations = await page.evaluate(() => {
             const variationElements = document.querySelectorAll('[data-selector="listing-page-variation"]');
             const variationsData = [];
-            
             variationElements.forEach((element) => {
               const label = element.querySelector('span[data-label]').textContent.trim();
               const options = Array.from(element.querySelectorAll('select option')).map(option => option.textContent.trim());
@@ -91,6 +111,9 @@ async function getProducts(){
             return variationsData;
           });
           productLink.variations = variations
+
+          //Break loop after 10 detailed info of products
+          if(counter === 1){ break } 
     }
 
     await browser.close();

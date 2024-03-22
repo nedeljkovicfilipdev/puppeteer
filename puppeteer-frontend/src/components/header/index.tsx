@@ -13,11 +13,12 @@ export function Header(props: IProps) {
   const { t } = useTranslation()
   
   return (
-    <div className="fixed left-0 top-0 flex w-full items-center justify-between border bg-slate-50 bg-opacity-70 px-4 py-4 md:px-12">
+    <div className="fixed left-0 top-0 flex w-full items-center justify-between border bg-zinc-100 bg-opacity-80 px-4 py-4 md:px-12">
       <Link to="/" className="text-xl font-bold text-slate-600 hover:text-white dark:text-white">
         Web Scrapers
       </Link>
       <div className="flex items-center gap-4">
+        <Link to='/cart' className='font-bold text-slate-600'>Cart</Link>
         <LanguageSelector />
       </div>
     </div>
